@@ -34,13 +34,41 @@
   </div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-5 jumbotron ml-3">
+        <h4 class="mt-1 mb-1">manage users</h4>
         <!-- main btn init -->
+        <div id="main_btn">
+          <button onclick="show_add_form()" class="btn btn-success btn-sm">new user</button>
+        </div>
         <!-- main btn end -->
 
         <!-- ==================================================== -->
 
         <!-- form section init -->
+        <div id="main_form">
+          <form id="insert_form" method="POST" role="form" autocomplete="off">
+            <div class="mb-2 mt-2">
+              <input type="hidden" name="txt_for" id="txt_for">
+              <input type="hidden" name="txt_order_id" id="txt_order_id">
+              <input type="text" id="txt_full_name" name="txt_full_name" class="form-control" placeholder="Full Name">
+            </div>
+            <div class="mb-2 mt-2">
+              <input type="text" id="txt_email" name="txt_email" class="form-control" placeholder="Email">
+            </div>
+            <div class="mb-2 mt-2">
+              <input type="number" id="txt_contact" name="txt_contact" class="form-control"
+                placeholder="Contact Number">
+            </div>
+            <div class="mb-2 mt-2">
+              <textarea type="number" id="txt_description" name="txt_description" class="form-control"
+                placeholder="Description"></textarea>
+            </div>
+
+            <div id="submit_div" class="mb-2 mt-2">
+              <button name="submit" type="sumbit" class="btn btn-success">submit</button>
+            </div>
+          </form>
+        </div>
         <!-- form section end -->
 
         <!-- ==================================================== -->
@@ -51,6 +79,57 @@
       </div>
     </div>
   </div>
+
+  <!-- js section -->
+  <script>
+    function show_add_form() {
+      $('#main_form').show();
+      $('txt_for').val('INSERT');
+
+      let content = '';
+      content += '<button type="button" onclick="hide_add_form()" class="btn btn-sm btn-secondary">Hide Form</button>';
+      content += '<br>';
+
+      $('main_btn').html(content);
+    }
+
+    function show_edit_form() {
+      $('#main_form').show();
+      $('txt_for').val('EDIT');
+
+      let content = '';
+      content += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-secondary">Hide Form</button>';
+      content += '<br>';
+
+      $('main_btn').html(content);
+
+      let content1 = '';
+      content1 += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-secondary">edit data</button>';
+      content1 += '<br>';
+
+      $('submit_div').html(content1);
+
+    }
+
+    function hide_form() {
+      $('#main_form').hide();
+
+      $('#txt_full_name').val('');
+      $('#txt_email').val('');
+      $('#txt_contact').val('');
+      $('#txt_description').val('');
+
+      let content = '';
+      content += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-success">New User</button>';
+      content += '<br>';
+    }
+
+
+  </script>
+
+
+
+
 </body>
 
 </html>
