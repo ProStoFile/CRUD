@@ -9,6 +9,10 @@
     <%= title %>%>
   </title>
 
+  <!-- jquery script plugin-->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+
   <!-- bootstrap css -->
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -18,10 +22,24 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <!-- jquery script plugin-->
+  <!-- data table plugin -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <style>
+    .error {
+      color: rgb(219, 39, 93);
+      font-weight: 700;
+      display: block;
+      padding: 6px 0;
+      font-size: 14px;
+    }
 
+    .form-control.error {
+      border-color: rgb(219, 39, 93);
+      padding: .375rem .75rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -34,7 +52,7 @@
   </div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-5 jumbotron ml-3">
+      <div class="col-md-4 jumbotron ml-3">
         <h4 class="mt-1 mb-1">manage users</h4>
         <!-- main btn init -->
         <div id="main_btn">
@@ -46,9 +64,9 @@
 
         <!-- form section init -->
         <div id="main_form">
-          <form id="insert_form" method="POST" role="form" autocomplete="off">
+          <form id="inser_form" role="form" autocomplete="off" method="POST">
             <div class="mb-2 mt-2">
-              <input type="hidden" name="txt_for" id="txt_for">
+              <input type="text" name="txt_for" id="txt_for">
               <input type="hidden" name="txt_order_id" id="txt_order_id">
               <input type="text" id="txt_full_name" name="txt_full_name" class="form-control" placeholder="Full Name">
             </div>
@@ -60,12 +78,12 @@
                 placeholder="Contact Number">
             </div>
             <div class="mb-2 mt-2">
-              <textarea type="number" id="txt_description" name="txt_description" class="form-control"
+              <textarea type="text" id="txt_description" name="txt_description" class="form-control"
                 placeholder="Description"></textarea>
             </div>
 
-            <div id="submit_div" class="mb-2 mt-2">
-              <button name="submit" type="sumbit" class="btn btn-success">submit</button>
+            <div id="submit_div" class="mb-3 mt-3">
+              <button type="submit" class="btn btn-success">submit</button>
             </div>
           </form>
         </div>
@@ -80,14 +98,20 @@
     </div>
   </div>
 
+  <!-- jquery validation plugins-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js">
+    </script>
+
   <!-- js section -->
   <script>
     function show_add_form() {
       $('#main_form').show();
-      $('txt_for').val('INSERT');
+      $('#txt_for').val('INSERT');
 
       let content = '';
-      content += '<button type="button" onclick="hide_add_form()" class="btn btn-sm btn-secondary">Hide Form</button>';
+      content += '<button type="button" onclick="hide_add_form()" class="btn btn-sm btn-secondary ">Hide Form</button>';
       content += '<br>';
 
       $('main_btn').html(content);
@@ -95,18 +119,16 @@
 
     function show_edit_form() {
       $('#main_form').show();
-      $('txt_for').val('EDIT');
+      $('#txt_for').val('EDIT');
 
       let content = '';
-      content += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-secondary">Hide Form</button>';
+      content += '<button type="button" onclick="hide_add_form()" class="btn btn-sm btn-secondary ">Hide Form</button>';
       content += '<br>';
-
       $('main_btn').html(content);
 
       let content1 = '';
-      content1 += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-secondary">edit data</button>';
+      content1 += '<button type="button" class="btn btn-sm btn-secondary ">edit data</button>';
       content1 += '<br>';
-
       $('submit_div').html(content1);
 
     }
@@ -120,13 +142,89 @@
       $('#txt_description').val('');
 
       let content = '';
-      content += '<button type="button" onclick="hide_add_form()class="btn btn-sm btn-success">New User</button>';
+      content += '<button type="button" onclick="show_add_form()" class="btn btn-sm btn-success ">New User</button>';
       content += '<br>';
-    }
+      $('main_btn').html(content);
 
+    }
 
   </script>
 
+  <script>
+    $(document).ready(function () {
+
+      $('#main_form').hide();
+      $('#txt_for').val('INSERT');
+
+      $('#txt_full_name').val('');
+      $('#txt_email').val('');
+      $('#txt_contact').val('');
+      $('#txt_description').val('');
+
+      $("#inser_form").validate({
+        ignore: [],
+        rules: {
+          txt_full_name: {
+            required: true
+          },
+          txt_email: {
+            required: true,
+            email: true
+          },
+          txt_contact: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            number: true
+          },
+          txt_description: {
+            required: true
+          }
+        },
+        messages: {
+          txt_full_name: 'full name is required',
+          txt_email: {
+            required: 'email address is required',
+            emal: "email address not valid"
+          },
+          txt_contact: {
+            required: 'contact number is required',
+            number: 'please provide number',
+            minlength: 'min length should be 10 char only',
+            maxlength: 'max length should be 10 char only'
+          },
+          txt_description: 'description is required',
+
+        },
+        submitHandler: function (form) {
+          // form submit
+          let formData = new FormData(form);
+          // insert form
+          if ($('#txt_for').val() === 'INSERT') {
+            $.ajax({
+              url: '/saveFomData',
+              data: $('#inser_form').serializeArray(),
+              dataType: 'json',
+              method: 'POST',
+              processData: true,
+              error: function (error) {
+                console.log(error);
+              },
+              success: function (results) {
+                if (results.status == 200) {
+                  window.alert("success");
+                }
+                if (results.status == 500) {
+                  window.alert("interval server error");
+                }
+              }
+            });
+          }
+          // insert form end
+        }
+      });
+    })
+  </script>
 
 
 
