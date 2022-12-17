@@ -12,6 +12,8 @@ const sequelize = new Sequelize("park", "root", "", {
   host: "localhost"
 });
 
+const PORT = config.get('port') || 3000;
+
 var db;
 function connectDb() {
     if (!db) {
