@@ -1,10 +1,17 @@
-var mysql = require('mysql')
-var connection = ({
+const mysql = require('mysql')
+const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'node_js_crud'
+    database: 'park'
 })
+
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("park", "root", "", {
+  dialect: "mysql",
+  host: "localhost"
+});
+
 var db;
 function connectDb() {
     if (!db) {
@@ -21,4 +28,4 @@ function connectDb() {
     return db;
 }
 
-module.exports = connectDb;
+module.exports = connectDb();
